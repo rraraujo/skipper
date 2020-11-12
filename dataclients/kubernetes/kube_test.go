@@ -717,8 +717,8 @@ func TestIngressData(t *testing.T) {
 			},
 		},
 		expectedRoutes: map[string]string{
-			"kube_foo__qux__www_example_org_____bar": "",
-			//"kube_foo__qux__www_example_org_____bar": "http://1.1.1.0:8080",
+			//"kube_foo__qux__www_example_org_____bar": "",
+			"kube_foo__qux__www_example_org_____bar": "http://1.1.1.0:8080",
 		},
 	}} {
 		t.Run(ti.msg, func(t *testing.T) {
