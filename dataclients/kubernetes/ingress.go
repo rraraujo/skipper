@@ -516,11 +516,7 @@ func (ing *ingress) convertDefaultBackend(state *clusterState, i *definitions.In
 
 	if len(eps) == 0 {
 		// add shunt route https://github.com/zalando/skipper/issues/1525
-<<<<<<< HEAD
-		log.Debugf("convertDefaultBackend: add shuntroute to return 502 for ingress %s/%s service %s with %d endpoints: %v", ns, name, svcName, len(eps), err)
-=======
 		log.Debugf("convertDefaultBackend: add shuntroute to return 502 for ingress %s/%s service %s with %d endpoints", ns, name, svcName, len(eps))
->>>>>>> refactor: ingress get endpoint call path is now using the routegroup one and backend protocol is stubbed in routegroup with a TODO to make https backend posssible
 		r := &eskip.Route{
 			Id: routeID(ns, name, "", "", ""),
 		}

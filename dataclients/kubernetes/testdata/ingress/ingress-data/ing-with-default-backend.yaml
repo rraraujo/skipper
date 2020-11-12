@@ -1,22 +1,17 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: qux
   namespace: foo
+  name: baz
 spec:
-  rules:
-  - host: www.example.org
-    http:
-      paths:
-      - path: "/"
-        backend:
-          serviceName: qux
-          servicePort: baz
+  backend:
+    serviceName: bar
+    servicePort: 8181
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: qux
+  name: bar
   namespace: foo
 spec:
   clusterIP: 10.3.190.97
@@ -34,13 +29,13 @@ kind: Endpoints
 metadata:
   labels:
     application: myapp
-  name: qux
+  name: bar
   namespace: foo
 subsets:
 - addresses:
   - ip: 10.2.9.103
   - ip: 10.2.9.104
   ports:
-  - name: bar
+  - name: baz
     port: 8080
     protocol: TCP
