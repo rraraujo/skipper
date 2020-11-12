@@ -672,54 +672,6 @@ func TestIngressData(t *testing.T) {
 		expectedRoutes: map[string]string{
 			"kube_foo__qux__www_zalando_de____www_zalando_de": "https://www.zalando.de:443",
 		},
-	}, {
-		// TODO(sszuecs)
-		msg:       "ignore ingress entries with missing Metadata",
-		endpoints: testEndpoints("foo", "bar", "1.1.1", 1, map[string]int{"baz": 8080}),
-		services: []*service{
-			testService("foo", "bar", "1.2.3.4", map[string]int{"baz": 8181}),
-		},
-		ingresses: []*definitions.IngressItem{
-			testIngress(
-				"foo",
-				"qux",
-				"",
-				"",
-				"",
-				"",
-				"",
-				"",
-				"",
-				definitions.BackendPort{},
-				1.0,
-				testRule(
-					"www.example.org",
-					testPathRule(
-						"/",
-						"bar",
-						definitions.BackendPort{Value: "baz"},
-					),
-				),
-			),
-			{
-				Spec: &definitions.IngressSpec{
-					Rules: []*definitions.Rule{
-						testRule(
-							"ignored.example.org",
-							testPathRule(
-								"/ignored",
-								"ignored",
-								definitions.BackendPort{Value: "baz"},
-							),
-						),
-					},
-				},
-			},
-		},
-		expectedRoutes: map[string]string{
-			//"kube_foo__qux__www_example_org_____bar": "",
-			"kube_foo__qux__www_example_org_____bar": "http://1.1.1.0:8080",
-		},
 	}} {
 		t.Run(ti.msg, func(t *testing.T) {
 			api := newTestAPIWithEndpoints(t, &serviceList{Items: ti.services}, &definitions.IngressList{Items: ti.ingresses}, &endpointList{
