@@ -523,16 +523,6 @@ func TestIngressData(t *testing.T) {
 		ingresses      []*definitions.IngressItem
 		expectedRoutes map[string]string
 	}{{
-		msg:       "service backend from ingress, service and with endpoints, default",
-		endpoints: testEndpoints("foo", "bar", "1.1.1", 1, map[string]int{"port1": 8080}),
-		services: []*service{
-			testService("foo", "bar", "1.2.3.4", map[string]int{"port1": 8080}),
-		},
-		ingresses: []*definitions.IngressItem{testIngress("foo", "baz", "bar", "", "", "", "", "", "", definitions.BackendPort{Value: 8080}, 1.0)},
-		expectedRoutes: map[string]string{
-			"kube_foo__baz______": "http://1.1.1.0:8080",
-		},
-	}, {
 		msg:       "service backend from ingress and invalid service without ports, path rule",
 		endpoints: testEndpoints("foo", "bar", "1.1.1", 1, map[string]int{"port1": 8080}),
 		services: []*service{
