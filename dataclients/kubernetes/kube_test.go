@@ -625,53 +625,6 @@ func TestIngressData(t *testing.T) {
 			"kube_foo__qux______":                    "http://1.1.1.0:8080",
 			"kube_foo__qux__www_example_org_____baz": "http://1.1.2.0:8181",
 		},
-	}, {
-		msg: "ingress with service type ExternalName should proxy to externalName",
-		services: []*service{
-			{
-				Meta: &definitions.Metadata{
-					Namespace: "foo",
-					Name:      "extname",
-				},
-				Spec: &serviceSpec{
-					Type:         "ExternalName",
-					ExternalName: "www.zalando.de",
-					Ports: []*servicePort{
-						{
-							Name: "ext",
-							Port: 443,
-							TargetPort: &definitions.BackendPort{
-								Value: 443,
-							},
-						},
-					},
-				},
-			},
-		},
-		ingresses: []*definitions.IngressItem{testIngress(
-			"foo",
-			"qux",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			definitions.BackendPort{Value: 443},
-			1.0,
-			testRule(
-				"www.zalando.de",
-				testPathRule(
-					"/",
-					"extname",
-					definitions.BackendPort{Value: 443},
-				),
-			),
-		)},
-		expectedRoutes: map[string]string{
-			"kube_foo__qux__www_zalando_de____www_zalando_de": "https://www.zalando.de:443",
-		},
 	}} {
 		t.Run(ti.msg, func(t *testing.T) {
 			api := newTestAPIWithEndpoints(t, &serviceList{Items: ti.services}, &definitions.IngressList{Items: ti.ingresses}, &endpointList{
